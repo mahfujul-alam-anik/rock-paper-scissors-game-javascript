@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock-Paper-Scissors</title>
+<style>
+    *{margin: 0;padding: 0;}
+    body::-webkit-scrollbar{display: none;}
+    body{background: rgb(80 188 123);}
+    .container{width: 80%;  border: 2px solid #5b8469; text-align: center; background: rgb(74, 189, 112); margin: auto; margin-top: 10vh; align-items: center;}
+    .title{font-family: serif; border-bottom: 2px solid #5b8469;padding: 20px;color: #304236; text-transform: uppercase;}
+    .flex-box{display: flex; justify-content: space-around; align-items: center;}
+    .content-box{width: 30%; display: flex; align-items: center; cursor: pointer;  margin: 20px; border-radius: 10px; transition: all 1s; text-align: center;box-shadow: 0px 0px 5px 1px #7bbacacf;}
+    .content-box:hover{background: #298648;}
+    .result-win{text-transform: uppercase; text-align: center;width: 100%;color: green; padding: 10px;}
+    .result-lose{text-transform: uppercase; text-align: center;width: 100%;color: rgb(209, 26, 26); padding: 10px;}
+    .result-draw{text-transform: uppercase; text-align: center;width: 100%;color: rgb(190, 235, 27); padding: 10px;}
+    img{object-fit: contain; height: 100%; width: 100%;}
+    .win__shadow{box-shadow: 0px 0px 20px 1px #6b82c5cf;background: #298648;}
+    .lose__shadow{box-shadow: 0px 0px 20px 1px #d81c1c;background: #298648;}
+    .draw__shadow{box-shadow: 0px 0px 20px 1px #a0cc4e;background: #298648;}
+</style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">Rock-Paper-Scissors</h1>
+        <div class="flex-box">
+            <div id="bot__box" class="content-box">
+                <img src="imgs/rock.png" alt="Rock" id="rock" onclick="gameStart(this)">
+            </div>
+            <div id="result__box" class="content-box">
+                <img src="imgs/paper.png" alt="Paper" id="paper" onclick="gameStart(this)">
+            </div>
+            <div id="human__box" class="content-box">
+                <img src="imgs/scissors.png" alt="Scissors" id="scissors" onclick="gameStart(this)">
+            </div>
+        </div>
+    </div>
+    <script>
+        function gameStart(element) {
+                let humanChoice = element.id;
+                let randomNumber = Math.floor(Math.random() * 3);
+                let options = ['rock', 'paper', 'scissors'];
+                let botChoice = options[randomNumber];
+
+                console.log('you chose:', humanChoice);
+                console.log('bot chose:', botChoice);
+
+                const boardLogic = {
+                    'rock': { 'rock': 0.5, 'paper': 0, 'scissors': 1 },
+                    'paper': { 'rock': 1, 'paper': 0.5, 'scissors': 0 },
+                    'scissors': { 'rock': 0, 'paper': 1, 'scissors': 0.5 }
+                }
+
+                let result = boardLogic[humanChoice][botChoice];
+                let resultBox = document.getElementById('result__box');
+                let botBox = document.getElementById('bot__box');
+                let humanBox = document.getElementById('human__box');
+                if (result === 1) {
+                    resultBox.firstElementChild.remove();
+                    resultBox.innerHTML = '<h1 class="result-win">you win</h1>';
+                    botBox.setAttribute('class', 'win__shadow content-box');
+                    humanBox.setAttribute('class', 'win__shadow content-box');
+                    console.log('you win');
+                } else if (result === 0.5) {
+                    resultBox.firstElementChild.remove();
+                    resultBox.innerHTML = '<h1 class="result-draw">match draw</h1>';
+                    botBox.setAttribute('class', 'draw__shadow content-box');
+                    humanBox.setAttribute('class', 'draw__shadow content-box');
+                    console.log('match draw');
+                } else if (result === 0) {
+                    resultBox.firstElementChild.remove();
+                    resultBox.innerHTML = '<h1 class="result-lose">you lose</h1>';
+                    botBox.setAttribute('class', 'lose__shadow content-box');
+                    humanBox.setAttribute('class', 'lose__shadow content-box');
+                    console.log('you lose');
+                }
+                console.log(result);
+
+                humanBox.lastElementChild.setAttribute('src', `imgs/${humanChoice}.png`);
+
+                botBox.firstElementChild.setAttribute('src', `imgs/${botChoice}.png`);
+            }
+    </script>
+</body>
+</html>
